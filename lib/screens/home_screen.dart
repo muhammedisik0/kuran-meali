@@ -4,7 +4,7 @@ import 'package:pdfx/pdfx.dart';
 import '../constants/surah_constants.dart';
 import '../helpers/dialog_helper.dart';
 import '../models/surah_model.dart';
-import '../sevices/local_storage_service.dart';
+import '../services/local_storage_service.dart';
 import '../widgets/search_bar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
