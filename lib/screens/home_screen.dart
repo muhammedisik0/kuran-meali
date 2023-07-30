@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:quran_tafsir/constants/surah_constants.dart';
-import 'package:quran_tafsir/helpers/dialog_helper.dart';
-import 'package:quran_tafsir/models/surah_model.dart';
 
+import '../constants/surah_constants.dart';
+import '../helpers/dialog_helper.dart';
+import '../models/surah_model.dart';
 import '../sevices/local_storage_service.dart';
 import '../widgets/search_bar_widget.dart';
 
