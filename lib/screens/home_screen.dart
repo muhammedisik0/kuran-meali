@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/screens/settings_screen.dart';
+import 'package:kuran_meali/widgets/custom_icon_button.dart';
 import 'package:pdfx/pdfx.dart';
 
 import '../constants/surah_constants.dart';
 import '../helpers/dialog_helper.dart';
 import '../models/surah_model.dart';
 import '../services/local_storage_service.dart';
-import '../widgets/search_bar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,44 +18,42 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final PdfController pdfController;
   late Surah currentSurah;
-  late final TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
     createPdfController();
-    detectSurahOnInit();
-    textEditingController = TextEditingController();
+    detectSurah(pdfController.initialPage);
   }
 
   void createPdfController() {
     pdfController = PdfController(
-      document: PdfDocument.openAsset('assets/quran-translation.pdf'),
+      document: PdfDocument.openAsset('assets/quran-interpretation.pdf'),
       initialPage: LocalStorageService.pageNumber,
     );
   }
 
-  void detectSurahOnInit() {
+  void detectSurah(int page) {
     final index = SurahConstants.listOfSurah.indexWhere((surah) {
-      return pdfController.initialPage >= surah.startsFrom &&
-          pdfController.initialPage < surah.ends;
-    });
-    currentSurah = SurahConstants.listOfSurah[index];
-  }
-
-  void detectSurah() {
-    final index = SurahConstants.listOfSurah.indexWhere((surah) {
-      return pdfController.page >= surah.startsFrom && pdfController.page < surah.ends;
+      return page >= surah.startsFrom && page < surah.ends;
     });
     currentSurah = SurahConstants.listOfSurah[index];
     setState(() {});
   }
 
-  void goToPage(String value) {
-    final page = int.parse(value);
-    pdfController.jumpToPage(page);
-    detectSurah();
-    textEditingController.clear();
+  Future<void> navigateToSettingsScreen() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SettingsScreen(),
+      ),
+    );
+    setState(() {});
+  }
+
+  void onPageChanged(int value) {
+    LocalStorageService.pageNumber = value;
+    detectSurah(pdfController.page);
   }
 
   @override
@@ -76,172 +75,64 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       backgroundColor: Colors.teal,
       title: Text('${currentSurah.name} Suresi'),
-      leadingWidth: 200,
-      actions: [
-        allSurahButton,
-        /*SearchBarWidget(
-          onSubmitted: goToPage,
-          pdfController: pdfController,
-          controller: textEditingController,
-        ),*/
-      ],
+      centerTitle: true,
+      leading: settingsIconButton,
     );
   }
 
-  Widget get searchBar {
-    return SearchBarWidget(
-      onSubmitted: goToPage,
-      pdfController: pdfController,
-      controller: textEditingController,
-    );
-  }
-
-  Widget get allSurahButton {
-    return GestureDetector(
-      onTap: () async {
-        await DialogHelper.showSurahDialog(context, pdfController);
-        LocalStorageService.pageNumber = pdfController.page;
-        detectSurah();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'SURELER',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Image.asset(
-              'assets/images/quran.png',
-              width: 24,
-            ),
-          ],
-        ),
-      ),
+  Widget get settingsIconButton {
+    return CustomIconButton(
+      onPressed: navigateToSettingsScreen,
+      icon: const Icon(Icons.menu),
     );
   }
 
   Widget get body {
-    return Column(
+    return Stack(
+      alignment: Alignment.center,
       children: [
         pdfSection,
-        pageNavigationSection,
+        Positioned(
+          bottom: 84,
+          right: 20,
+          child: pageNumber,
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: pageNavigationSection,
+        ),
+        Positioned(
+          bottom: 27,
+          child: allSurahButton,
+        ),
       ],
     );
   }
 
   Widget get pdfSection {
-    return Expanded(
-      child: IgnorePointer(
-        ignoring: true,
-        child: PdfView(
-          controller: pdfController,
-          builders: PdfViewBuilders<DefaultBuilderOptions>(
-            options: const DefaultBuilderOptions(),
-            documentLoaderBuilder: (_) => const Center(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 69),
+      child: PdfView(
+        onPageChanged: onPageChanged,
+        controller: pdfController,
+        scrollDirection: LocalStorageService.scrollDirection ? Axis.vertical : Axis.horizontal,
+        builders: PdfViewBuilders<DefaultBuilderOptions>(
+          options: const DefaultBuilderOptions(),
+          documentLoaderBuilder: (_) => const Center(
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
+          ),
+          pageLoaderBuilder: (_) {
+            return const Center(
               child: CircularProgressIndicator(
                 color: Colors.teal,
               ),
-            ),
-            pageLoaderBuilder: (_) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.teal,
-                ),
-              );
-            },
-          ),
+            );
+          },
         ),
-      ),
-    );
-  }
-
-  Widget get pageNavigationSection {
-    return Container(
-      width: double.infinity,
-      height: 60,
-      color: Colors.teal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          fivePagesBackIconButton,
-          previousIconButton,
-          pageNumber,
-          nextIconButton,
-          fivePagesForwardIconButton,
-        ],
-      ),
-    );
-  }
-
-  Widget get previousIconButton {
-    return IconButton(
-      onPressed: () async {
-        await pdfController.previousPage(
-          curve: Curves.ease,
-          duration: const Duration(milliseconds: 100),
-        );
-        LocalStorageService.pageNumber = pdfController.page;
-        detectSurah();
-      },
-      icon: const Icon(Icons.navigate_before),
-      color: Colors.white,
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-    );
-  }
-
-  Widget get nextIconButton {
-    return IconButton(
-      onPressed: () async {
-        await pdfController.nextPage(
-          curve: Curves.ease,
-          duration: const Duration(milliseconds: 100),
-        );
-        LocalStorageService.pageNumber = pdfController.page;
-        detectSurah();
-      },
-      icon: const Icon(Icons.navigate_next),
-      color: Colors.white,
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-    );
-  }
-
-  Widget get fivePagesBackIconButton {
-    return GestureDetector(
-      onTap: () {
-        pdfController.jumpToPage(pdfController.page - 5);
-        LocalStorageService.pageNumber = pdfController.page;
-        detectSurah();
-      },
-      child: const Icon(
-        Icons.keyboard_double_arrow_left,
-        color: Colors.white,
-      ),
-    );
-  }
-
-  Widget get fivePagesForwardIconButton {
-    return GestureDetector(
-      onTap: () {
-        pdfController.jumpToPage(pdfController.page + 5);
-        LocalStorageService.pageNumber = pdfController.page;
-        detectSurah();
-      },
-      child: const Icon(
-        Icons.keyboard_double_arrow_right,
-        color: Colors.white,
       ),
     );
   }
@@ -250,12 +141,89 @@ class _HomeScreenState extends State<HomeScreen> {
     return PdfPageNumber(
       controller: pdfController,
       builder: (_, loadingState, page, pagesCount) => Container(
-        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.teal[100],
+        ),
         child: Text(
           '$page/${pagesCount ?? 0}',
           style: const TextStyle(
-            fontSize: 22,
-            color: Colors.white,
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get pageNavigationSection {
+    return Container(
+      height: 54,
+      color: Colors.teal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          fivePagesBackIconButton,
+          previousIconButton,
+          const SizedBox(width: 20),
+          nextIconButton,
+          fivePagesForwardIconButton,
+        ],
+      ),
+    );
+  }
+
+  Widget get previousIconButton {
+    return CustomIconButton(
+      onPressed: () {
+        pdfController.previousPage(
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 100),
+        );
+      },
+      icon: const Icon(Icons.navigate_before),
+    );
+  }
+
+  Widget get nextIconButton {
+    return CustomIconButton(
+      onPressed: () {
+        pdfController.nextPage(
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 100),
+        );
+      },
+      icon: const Icon(Icons.navigate_next),
+    );
+  }
+
+  Widget get fivePagesBackIconButton {
+    return CustomIconButton(
+      onPressed: () => pdfController.jumpToPage(pdfController.page - 5),
+      icon: const Icon(Icons.keyboard_double_arrow_left),
+    );
+  }
+
+  Widget get fivePagesForwardIconButton {
+    return CustomIconButton(
+      onPressed: () => pdfController.jumpToPage(pdfController.page + 5),
+      icon: const Icon(Icons.keyboard_double_arrow_right),
+    );
+  }
+
+  Widget get allSurahButton {
+    return GestureDetector(
+      onTap: () => DialogHelper.showSurahDialog(context, pdfController),
+      child: CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.white,
+        child: CircleAvatar(
+          radius: 27,
+          backgroundColor: Colors.teal,
+          child: Image.asset(
+            'assets/images/quran.png',
+            width: 27,
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kuran_meali">
    <application
-        android:label="Kur'an Meali"
+        android:label="Açıklamalı Kur'an Meali"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
