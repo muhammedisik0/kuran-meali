@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:kuran_meali/screens/splash_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init("Qur'an");
+  await GetStorage.init("Quran");
   runApp(const MainApp());
 }
 

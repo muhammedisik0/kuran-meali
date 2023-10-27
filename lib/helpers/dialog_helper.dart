@@ -3,7 +3,10 @@ import 'package:pdfx/pdfx.dart';
 import '../constants/surah_constants.dart';
 
 class DialogHelper {
-  static Future<void> showSurahDialog(BuildContext context, PdfController pdfController) async {
+  static Future<void> showSurahDialog(
+    BuildContext context,
+    PdfController pdfController,
+  ) async {
     final listOfSurah = SurahConstants.listOfSurah;
 
     await showDialog(
@@ -11,7 +14,7 @@ class DialogHelper {
       builder: (context) {
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-          //title: const Center(child: Text('Sureler')),
+          title: const Center(child: Text('Sureler')),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.separated(
@@ -25,23 +28,18 @@ class DialogHelper {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    alignment: Alignment.center,
+                    height: 48,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.teal,
                     ),
+                    alignment: Alignment.center,
                     child: Row(
                       children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                          ),
-                          alignment: Alignment.center,
+                        CircleAvatar(
+                          radius: 14,
+                          backgroundColor: Colors.white,
                           child: Text(
                             '${index + 1}',
                             style: const TextStyle(
@@ -51,12 +49,12 @@ class DialogHelper {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 15),
+                        const SizedBox(width: 12),
                         Text(
                           listOfSurah[index].name,
                           style: const TextStyle(
+                            fontSize: 16,
                             color: Colors.white,
-                            fontSize: 18,
                           ),
                         ),
                       ],

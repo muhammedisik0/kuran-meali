@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({
     Key? key,
-    required this.pdfController,
+    //required this.pdfController,
     required this.onSubmitted,
     required this.controller,
   }) : super(key: key);
 
-  final PdfController pdfController;
+  //final PdfController pdfController;
   final Function(String value) onSubmitted;
   final TextEditingController controller;
 

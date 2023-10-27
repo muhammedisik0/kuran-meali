@@ -15,6 +15,17 @@ class _SplashScreenState extends State<SplashScreen> {
     navigateToHomeScreen();
   }
 
+  Future<void> navigateToHomeScreen() async {
+    await Future.delayed(const Duration(seconds: 2));
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +36,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Center(
+            const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'Kısa Açıklamalı',
                     style: TextStyle(
@@ -37,23 +48,22 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontSize: 28,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Text(
                     'Kur\'an-ı Kerim Meali',
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 32,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 28,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   Text(
                     'Mahmut Kısa',
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       fontSize: 20,
-                      fontStyle: FontStyle.italic,
                     ),
                   ),
                 ],
@@ -68,17 +78,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> navigateToHomeScreen() async {
-    await Future.delayed(const Duration(seconds: 3));
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
       ),
     );
   }

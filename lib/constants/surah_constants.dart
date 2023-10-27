@@ -37,7 +37,7 @@ class SurahConstants {
     Surah('Lokman', 1647, 1663),
     Surah('Secde', 1663, 1674),
     Surah('Ahzâb', 1674, 1716),
-    Surah('Sebe\'', 1716, 1741),
+    Surah('Sebe', 1716, 1741),
     Surah('Fâtır', 1741, 1762),
     Surah('Yâsin', 1762, 1790),
     Surah('Sâffât', 1790, 1825),
