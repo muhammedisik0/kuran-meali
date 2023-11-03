@@ -39,45 +39,50 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const Center(
+            Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     TextConstants.shortExplanatory,
-                    style: TextStyle(
-                      color: ColorConstants.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 28,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    TextConstants.quranKareemMeaning,
-                    style: TextStyle(
-                      color: ColorConstants.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 28,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Text(
-                    TextConstants.mahmutKisa,
                     style: TextStyle(
                       color: ColorConstants.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    TextConstants.quranKareemMeaning,
+                    style: TextStyle(
+                      color: ColorConstants.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Ink(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: ColorConstants.white,
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: const Text(
+                      TextConstants.mahmutKisa,
+                      style: TextStyle(
+                        color: ColorConstants.teal,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
             Positioned(
-              bottom: 80,
-              child: Image.asset(
-                PathConstants.icQuran,
-                width: 100,
-              ),
+              bottom: 60,
+              child: Image.asset(PathConstants.icApp, width: 128),
             ),
           ],
         ),
