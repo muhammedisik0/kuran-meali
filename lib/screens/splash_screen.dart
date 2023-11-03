@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/color_constants.dart';
+import 'package:kuran_meali/constants/path_constants.dart';
+import 'package:kuran_meali/constants/text_constants.dart';
 import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.teal,
+      backgroundColor: ColorConstants.teal,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
@@ -41,27 +44,27 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Kısa Açıklamalı',
+                    TextConstants.shortExplanatory,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: ColorConstants.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 28,
                     ),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Kur\'an-ı Kerim Meali',
+                    TextConstants.quranKareemMeaning,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: ColorConstants.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 28,
                     ),
                   ),
                   SizedBox(height: 40),
                   Text(
-                    'Mahmut Kısa',
+                    TextConstants.mahmutKisa,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: ColorConstants.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
                     ),
@@ -72,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Positioned(
               bottom: 80,
               child: Image.asset(
-                'assets/images/quran.png',
+                PathConstants.icQuran,
                 width: 100,
               ),
             ),

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:kuran_meali/screens/settings_screen.dart';
-import 'package:kuran_meali/widgets/custom_icon_button.dart';
+import 'package:kuran_meali/constants/path_constants.dart';
+import 'package:kuran_meali/constants/snackbar_text_constants.dart';
+import 'package:kuran_meali/constants/text_constants.dart';
+import 'package:kuran_meali/widgets/pin_icon_button_widget.dart';
+import '../constants/color_constants.dart';
+import '../widgets/add_icon_button_widget.dart';
+import '../helpers/snackbar_helper.dart';
+import '../models/note_model.dart';
+import 'settings_screen.dart';
+import '../widgets/custom_icon_button_widget.dart';
 import 'package:pdfx/pdfx.dart';
 
 import '../constants/surah_constants.dart';
 import '../helpers/dialog_helper.dart';
 import '../models/surah_model.dart';
-import '../services/local_storage_service.dart';
+import '../services/storage_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late final PdfController pdfController;
   late Surah currentSurah;
 
+  bool isPinned = true;
+
   @override
   void initState() {
     super.initState();
@@ -26,10 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
     detectSurah(pdfController.initialPage);
   }
 
+  @override
+  void dispose() {
+    pdfController.dispose();
+    super.dispose();
+  }
+
   void createPdfController() {
     pdfController = PdfController(
-      document: PdfDocument.openAsset('assets/quran-interpretation.pdf'),
-      initialPage: LocalStorageService.pageNumber,
+      document: PdfDocument.openAsset(PathConstants.pdfQuran),
+      initialPage: StorageService.pageNumber,
     );
   }
 
@@ -52,14 +68,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onPageChanged(int value) {
-    LocalStorageService.pageNumber = value;
-    detectSurah(pdfController.page);
+    detectSurah(value);
+    isPinned = value == StorageService.pageNumber ? true : false;
+    setState(() {});
   }
 
-  @override
-  void dispose() {
-    pdfController.dispose();
-    super.dispose();
+  void onPinIconButtonPressed() {
+    isPinned = true;
+    StorageService.pageNumber = pdfController.page;
+    SnackBarHelper.showSnackBar(SnackBarTextConstants.pinnedPage);
+    setState(() {});
+  }
+
+  Future<void> onAddIconButtonPressed() async {
+    final result = await DialogHelper.showAddNoteDialog(context) as List;
+    final isAdded = result.first;
+    if (isAdded) {
+      final note = result.last as Note;
+      final listOfMyNotes = StorageService.listOfMyNotes;
+      listOfMyNotes.add(note);
+      StorageService.listOfMyNotes = listOfMyNotes;
+    }
   }
 
   @override
@@ -73,8 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar get appBar {
     return AppBar(
-      backgroundColor: Colors.teal,
-      title: Text('${currentSurah.name} Suresi'),
+      backgroundColor: ColorConstants.teal,
+      title: Text('${currentSurah.name} ${TextConstants.surahOf}'),
       centerTitle: true,
       leading: settingsIconButton,
     );
@@ -88,14 +117,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget get body {
+    print('body');
     return Stack(
       alignment: Alignment.center,
       children: [
         pdfSection,
         Positioned(
-          bottom: 84,
-          right: 20,
+          top: 10,
+          right: 16,
+          child: PinIconButton(
+            onPressed: onPinIconButtonPressed,
+            isPinned: isPinned,
+          ),
+        ),
+        Positioned(
+          top: 20,
+          left: 20,
           child: pageNumber,
+        ),
+        Positioned(
+          bottom: 64,
+          right: 16,
+          child: AddIconButton(onPressed: onAddIconButtonPressed),
         ),
         Positioned(
           bottom: 0,
@@ -113,23 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get pdfSection {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 69),
+      padding: const EdgeInsets.only(bottom: 70),
       child: PdfView(
         onPageChanged: onPageChanged,
         controller: pdfController,
-        scrollDirection: LocalStorageService.scrollDirection ? Axis.vertical : Axis.horizontal,
+        scrollDirection:
+            StorageService.scrollDirection ? Axis.vertical : Axis.horizontal,
         builders: PdfViewBuilders<DefaultBuilderOptions>(
           options: const DefaultBuilderOptions(),
           documentLoaderBuilder: (_) => const Center(
-            child: CircularProgressIndicator(
-              color: Colors.teal,
-            ),
+            child: CircularProgressIndicator(color: ColorConstants.teal),
           ),
           pageLoaderBuilder: (_) {
             return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.teal,
-              ),
+              child: CircularProgressIndicator(color: ColorConstants.lightTeal),
             );
           },
         ),
@@ -140,17 +180,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget get pageNumber {
     return PdfPageNumber(
       controller: pdfController,
-      builder: (_, loadingState, page, pagesCount) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      builder: (context, loadingState, page, pagesCount) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Colors.teal[100],
+          color: ColorConstants.lightTeal,
         ),
         child: Text(
           '$page/${pagesCount ?? 0}',
           style: const TextStyle(
-            fontSize: 15,
-            color: Colors.black,
+            fontSize: 14,
+            color: ColorConstants.black,
           ),
         ),
       ),
@@ -160,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget get pageNavigationSection {
     return Container(
       height: 54,
-      color: Colors.teal,
+      color: ColorConstants.teal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -217,12 +257,12 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => DialogHelper.showSurahDialog(context, pdfController),
       child: CircleAvatar(
         radius: 30,
-        backgroundColor: Colors.white,
+        backgroundColor: ColorConstants.white,
         child: CircleAvatar(
           radius: 27,
-          backgroundColor: Colors.teal,
+          backgroundColor: ColorConstants.teal,
           child: Image.asset(
-            'assets/images/quran.png',
+            PathConstants.icQuran,
             width: 27,
           ),
         ),

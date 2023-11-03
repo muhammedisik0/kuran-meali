@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/color_constants.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
@@ -15,9 +16,9 @@ class CustomIconButton extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       icon: icon,
-      color: Colors.white,
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      color: ColorConstants.white,
+      highlightColor: ColorConstants.transparent,
+      splashColor: ColorConstants.transparent,
       padding: EdgeInsets.zero,
     );
   }
