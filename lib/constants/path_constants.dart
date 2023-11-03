@@ -1,11 +1,13 @@
 class PathConstants {
   PathConstants._();
 
-  static const String base = 'assets';
+  static const String _base = 'assets';
 
-  static const String icons = '$base/icons';
+  static const String _icons = '$_base/icons';
 
-  static const String icQuran = '$icons/quran.png';
+  static const String icApp = '$_icons/app-logo.png';
 
-  static const String pdfQuran = '$base/quran-interpretation.pdf';
+  static const String icQuran = '$_icons/quran.png';
+
+  static const String pdfQuran = '$_base/quran-interpretation.pdf';
 }
