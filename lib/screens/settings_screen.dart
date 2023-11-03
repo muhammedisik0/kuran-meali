@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/text_constants.dart';
+import 'package:kuran_meali/screens/my_notes_screen.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants/string_constants.dart';
-import '../services/local_storage_service.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_icon_button.dart';
+import '../constants/color_constants.dart';
+import '../constants/app_constants.dart';
+import '../services/storage_service.dart';
+import '../widgets/custom_button_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -16,21 +18,30 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  void onPressedPageDirectionButton() {
-    LocalStorageService.setScrollDirection();
-    setState(() {});
-  }
-
-  void onPressedShareAppButton() => Share.share(StringConstants.playStoreUrl);
-
-  void onPressedRateAppButton() {
-    LaunchReview.launch(
-      androidAppId: StringConstants.packageName,
+  void onMyNotes() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyNotesScreen(),
+      ),
     );
   }
 
-  void onPressedContactUsButton() {
-    final String email = Uri.encodeComponent(StringConstants.contactEmail);
+  void onPageDirection() {
+    StorageService.setScrollDirection();
+    setState(() {});
+  }
+
+  void onShareApp() => Share.share(AppConstants.playStoreUrl);
+
+  void onRateApp() {
+    LaunchReview.launch(
+      androidAppId: AppConstants.packageName,
+    );
+  }
+
+  void onContactUs() {
+    final String email = Uri.encodeComponent(AppConstants.contactEmail);
     final String subject = Uri.encodeComponent('');
     final String body = Uri.encodeComponent('');
     Uri url = Uri.parse('mailto:$email?subject=$subject&body=$body');
@@ -40,21 +51,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: appBar,
       body: body,
     );
   }
 
-  AppBar buildAppBar(BuildContext context) {
+  AppBar get appBar {
     return AppBar(
-      backgroundColor: Colors.teal,
-      title: const Text('Ayarlar'),
-      leading: CustomIconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.arrow_back),
-      ),
+      backgroundColor: ColorConstants.teal,
+      title: const Text(TextConstants.settings),
     );
   }
 
@@ -66,6 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Column(
             children: [
+              myNotesSection,
               pageDirection,
               shareAppSection,
               rateAppSection,
@@ -78,13 +84,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget get myNotesSection {
+    return CustomButton(
+      onPressed: onMyNotes,
+      icon: const Icon(Icons.my_library_books_outlined),
+      text: TextConstants.myNotes,
+    );
+  }
+
   Widget get pageDirection {
     return CustomButton(
-      onPressed: onPressedPageDirectionButton,
-      icon: const Icon(Icons.filter_list),
-      text: 'Sayfa Akışı',
+      onPressed: onPageDirection,
+      icon: const Icon(Icons.filter_list_outlined),
+      text: TextConstants.scrollDirection,
       child: Text(
-        LocalStorageService.scrollDirection ? 'Dikey' : 'Yatay',
+        StorageService.scrollDirection
+            ? TextConstants.vertical
+            : TextConstants.horizontal,
         style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -95,33 +111,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget get shareAppSection {
     return CustomButton(
-      onPressed: onPressedShareAppButton,
+      onPressed: onShareApp,
       icon: const Icon(Icons.share_outlined),
-      text: 'Uygulamayı Paylaş',
+      text: TextConstants.shareApp,
     );
   }
 
   Widget get rateAppSection {
     return CustomButton(
-        onPressed: onPressedRateAppButton,
-        icon: const Icon(Icons.star_rate_outlined),
-        text: 'Uygulamayı Değerlendir');
+      onPressed: onRateApp,
+      icon: const Icon(Icons.star_rate_outlined),
+      text: TextConstants.rateApp,
+    );
   }
 
   Widget get contactUsSection {
     return CustomButton(
-        onPressed: onPressedContactUsButton,
-        icon: const Icon(Icons.mail_outlined),
-        text: 'İletişime Geçin');
+      onPressed: onContactUs,
+      icon: const Icon(Icons.mail_outlined),
+      text: TextConstants.contactUs,
+    );
   }
 
   Widget get versionNumber {
     return const Text(
-      'Versiyon 1.1.0',
+      '${TextConstants.version} 1.1.0',
       style: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: Colors.grey,
+        color: ColorConstants.mediumGray,
       ),
     );
   }

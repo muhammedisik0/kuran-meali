@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/text_constants.dart';
+import 'package:kuran_meali/widgets/custom_text_button_widget.dart';
+import '../constants/color_constants.dart';
+import '../models/note_model.dart';
+import '../widgets/custom_text_field_widget.dart';
 import 'package:pdfx/pdfx.dart';
 import '../constants/surah_constants.dart';
 
@@ -13,8 +18,9 @@ class DialogHelper {
       context: context,
       builder: (context) {
         return AlertDialog(
-          insetPadding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-          title: const Center(child: Text('Sureler')),
+          insetPadding:
+              const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+          title: const Center(child: Text(TextConstants.surahs)),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.separated(
@@ -32,18 +38,18 @@ class DialogHelper {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.teal,
+                      color: ColorConstants.teal,
                     ),
                     alignment: Alignment.center,
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: 14,
-                          backgroundColor: Colors.white,
+                          backgroundColor: ColorConstants.white,
                           child: Text(
                             '${index + 1}',
                             style: const TextStyle(
-                              color: Colors.teal,
+                              color: ColorConstants.teal,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
@@ -54,7 +60,7 @@ class DialogHelper {
                           listOfSurah[index].name,
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: ColorConstants.white,
                           ),
                         ),
                       ],
@@ -67,6 +73,98 @@ class DialogHelper {
               },
             ),
           ),
+        );
+      },
+    );
+  }
+
+  static Future showAddNoteDialog(BuildContext context,
+      {bool isEdit = false, Note? note}) {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController contentController = TextEditingController();
+
+    if (isEdit) {
+      titleController.text = note!.title;
+      contentController.text = note.content;
+    }
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title:
+              Text(isEdit ? TextConstants.editNote : TextConstants.createNote),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomTextField(
+                controller: titleController,
+                autoFocus: true,
+                labelText: TextConstants.title,
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                controller: contentController,
+                labelText: TextConstants.content,
+                maxLines: 8,
+              ),
+            ],
+          ),
+          actions: [
+            CustomTextButton(
+              onPressed: () {
+                Navigator.of(context).pop([false]);
+              },
+              foregroundColor: ColorConstants.black,
+              backgroundColor: ColorConstants.transparent,
+              text: TextConstants.cancel,
+            ),
+            CustomTextButton(
+              onPressed: () {
+                String title = titleController.text.trim();
+                String content = contentController.text.trim();
+                if (title.isEmpty) title = '...';
+                if (content.isEmpty) content = '...';
+                final note = Note(title: title, content: content);
+                Navigator.of(context).pop([true, note]);
+              },
+              foregroundColor: ColorConstants.white,
+              backgroundColor: ColorConstants.teal,
+              text: TextConstants.save,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static Future showConfirmationDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(TextConstants.deleteNote),
+          content: const Text(TextConstants.areYouSureYouWantToDeleteTheNote),
+          actions: [
+            CustomTextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              foregroundColor: ColorConstants.black,
+              backgroundColor: ColorConstants.transparent,
+              text: TextConstants.cancel,
+            ),
+            CustomTextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              foregroundColor: ColorConstants.white,
+              backgroundColor: ColorConstants.red,
+              text: TextConstants.delete,
+            ),
+          ],
         );
       },
     );
