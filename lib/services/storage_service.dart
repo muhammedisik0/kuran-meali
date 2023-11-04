@@ -7,10 +7,10 @@ import '../models/note_model.dart';
 class StorageService {
   static final _storage = GetStorage(StorageKeyConstants.quran);
 
-  static int get pageNumber =>
+  static int get pinnedPage =>
       _storage.read(StorageKeyConstants.initialPage) ?? 1;
 
-  static set pageNumber(int value) =>
+  static set pinnedPage(int value) =>
       _storage.write(StorageKeyConstants.initialPage, value);
 
   static String get surahLatestRead =>
