@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({
+class SettingsItemButton extends StatelessWidget {
+  const SettingsItemButton({
     Key? key,
     required this.onPressed,
     required this.icon,
     required this.text,
-    this.child = const SizedBox.shrink(),
+    this.child,
   }) : super(key: key);
 
   final Function() onPressed;
   final Icon icon;
   final String text;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +29,12 @@ class CustomButton extends StatelessWidget {
               const SizedBox(width: 20),
               Text(
                 text,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               ),
             ],
           ),
-          child,
+          child ?? const SizedBox.shrink(),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/route_constants.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/screens/my_notes_screen.dart';
+import 'package:kuran_meali/utils/globals.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,39 +9,32 @@ import 'package:url_launcher/url_launcher.dart';
 import '../constants/color_constants.dart';
 import '../constants/app_constants.dart';
 import '../services/storage_service.dart';
-import '../widgets/custom_button_widget.dart';
+import '../widgets/settings_item_button_widget.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  void onMyNotes() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MyNotesScreen(),
-      ),
+  void onMyNotesPressed() {
+    Navigator.pushNamed(
+      navigatorKey.currentContext!,
+      RouteConstants.myNotes,
     );
   }
 
-  void onPageDirection() {
+  void onPageDirectionPressed(setState) {
     StorageService.setScrollDirection();
     setState(() {});
   }
 
   void onShareApp() => Share.share(AppConstants.playStoreUrl);
 
-  void onRateApp() {
+  void onRateAppPressed() {
     LaunchReview.launch(
       androidAppId: AppConstants.packageName,
     );
   }
 
-  void onContactUs() {
+  void onContactUsPressed() {
     final String email = Uri.encodeComponent(AppConstants.contactEmail);
     final String subject = Uri.encodeComponent('');
     final String body = Uri.encodeComponent('');
@@ -85,32 +79,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget get myNotesSection {
-    return CustomButton(
-      onPressed: onMyNotes,
+    return SettingsItemButton(
+      onPressed: onMyNotesPressed,
       icon: const Icon(Icons.my_library_books_outlined),
       text: TextConstants.myNotes,
     );
   }
 
   Widget get pageDirection {
-    return CustomButton(
-      onPressed: onPageDirection,
-      icon: const Icon(Icons.filter_list_outlined),
-      text: TextConstants.scrollDirection,
-      child: Text(
-        StorageService.scrollDirection
-            ? TextConstants.vertical
-            : TextConstants.horizontal,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return SettingsItemButton(
+          onPressed: () => onPageDirectionPressed(setState),
+          icon: const Icon(Icons.filter_list_outlined),
+          text: TextConstants.scrollDirection,
+          child: Text(
+            StorageService.scrollDirection
+                ? TextConstants.vertical
+                : TextConstants.horizontal,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget get shareAppSection {
-    return CustomButton(
+    return SettingsItemButton(
       onPressed: onShareApp,
       icon: const Icon(Icons.share_outlined),
       text: TextConstants.shareApp,
@@ -118,16 +116,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget get rateAppSection {
-    return CustomButton(
-      onPressed: onRateApp,
+    return SettingsItemButton(
+      onPressed: onRateAppPressed,
       icon: const Icon(Icons.star_rate_outlined),
       text: TextConstants.rateApp,
     );
   }
 
   Widget get contactUsSection {
-    return CustomButton(
-      onPressed: onContactUs,
+    return SettingsItemButton(
+      onPressed: onContactUsPressed,
       icon: const Icon(Icons.mail_outlined),
       text: TextConstants.contactUs,
     );
