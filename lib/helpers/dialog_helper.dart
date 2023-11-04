@@ -8,8 +8,8 @@ import '../widgets/custom_textfield_widget.dart';
 import '../constants/surah_constants.dart';
 
 class DialogHelper {
-  static Future showSurahesDialog(BuildContext context) {
-    final listOfSurah = SurahConstants.listOfSurah;
+  static Future showSurahsDialog(BuildContext context) {
+    final listOfSurahs = SurahConstants.listOfSurahs;
 
     return showDialog(
       context: context,
@@ -22,12 +22,12 @@ class DialogHelper {
             width: double.maxFinite,
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount: listOfSurah.length,
+              itemCount: listOfSurahs.length,
               itemBuilder: (context, index) {
-                final surah = listOfSurah[index];
+                final surah = listOfSurahs[index];
                 return SurahButton(
                   onPressed: () {
-                    final selectedSurah = listOfSurah[index];
+                    final selectedSurah = listOfSurahs[index];
                     Navigator.of(context).pop(selectedSurah);
                   },
                   number: index + 1,
@@ -78,9 +78,7 @@ class DialogHelper {
           ),
           actions: [
             ActionButton(
-              onPressed: () {
-                Navigator.of(context).pop([false]);
-              },
+              onPressed: () => Navigator.of(context).pop([false]),
               foregroundColor: ColorConstants.black,
               backgroundColor: ColorConstants.transparent,
               text: TextConstants.cancel,
@@ -114,17 +112,13 @@ class DialogHelper {
           content: const Text(TextConstants.areYouSureYouWantToDeleteTheNote),
           actions: [
             ActionButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
+              onPressed: () => Navigator.of(context).pop(false),
               foregroundColor: ColorConstants.black,
               backgroundColor: ColorConstants.transparent,
               text: TextConstants.cancel,
             ),
             ActionButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
+              onPressed: () => Navigator.of(context).pop(true),
               foregroundColor: ColorConstants.white,
               backgroundColor: ColorConstants.red,
               text: TextConstants.delete,

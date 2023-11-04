@@ -3,7 +3,7 @@ import '../models/surah_model.dart';
 class SurahConstants {
   SurahConstants._();
 
-  static List<Surah> listOfSurah = const [
+  static List<Surah> listOfSurahs = const [
     Surah('Fâtiha', 1, 7),
     Surah('Bakara', 7, 209),
     Surah('Âl-i İmrân', 209, 316),

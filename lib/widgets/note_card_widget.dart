@@ -7,14 +7,14 @@ import '../models/note_model.dart';
 
 class NoteCard extends StatelessWidget {
   final Note note;
-  final VoidCallback onDelete;
   final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const NoteCard({
     super.key,
     required this.note,
-    required this.onDelete,
     required this.onEdit,
+    required this.onDelete,
   });
 
   @override
@@ -72,13 +72,7 @@ class NoteCard extends StatelessWidget {
 
   Widget get moreButton {
     return PopupMenuButton<String>(
-      onSelected: (value) {
-        if (value == 'edit') {
-          onEdit();
-        } else if (value == 'delete') {
-          onDelete();
-        }
-      },
+      onSelected: (value) => value == 'edit' ? onEdit() : onDelete(),
       icon: const Icon(Icons.more_vert, size: 20),
       splashRadius: null,
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

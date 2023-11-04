@@ -16,7 +16,7 @@ class MyNotesScreen extends StatefulWidget {
 }
 
 class _MyNotesScreenState extends State<MyNotesScreen> {
-  List<Note> listOfMyNotes = [];
+  late List<Note> listOfMyNotes;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     listOfMyNotes = StorageService.listOfMyNotes;
   }
 
-  Future<void> onAddPressed() async {
+  Future<void> onAddIconButtonPressed() async {
     final result = await DialogHelper.showAddNoteDialog(context) as List;
     final isAdded = result.first;
     if (isAdded) {
@@ -62,12 +62,11 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     return Scaffold(
       appBar: appBar,
       body: body,
-      floatingActionButton: AddIconButton(onPressed: onAddPressed),
+      floatingActionButton: AddIconButton(onPressed: onAddIconButtonPressed),
     );
   }
 
   AppBar get appBar {
-    print('appbar--------');
     return AppBar(
       backgroundColor: ColorConstants.teal,
       title: const Text(TextConstants.myNotes),
