@@ -3,7 +3,6 @@ import 'package:kuran_meali/constants/path_constants.dart';
 import 'package:kuran_meali/constants/route_constants.dart';
 import 'package:kuran_meali/constants/snackbar_text_constants.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/widgets/pdf_viewer_widget.dart';
 import 'package:kuran_meali/widgets/pin_icon_button_widget.dart';
 import '../constants/color_constants.dart';
 import '../widgets/add_icon_button_widget.dart';
@@ -28,13 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   late final PdfController pdfController;
   late Surah currentSurah;
 
+  late int pinnedPage;
   bool isPinned = true;
 
   @override
   void initState() {
     super.initState();
-    createPdfController();
+    pinnedPage = StorageService.pinnedPage;
     currentSurah = Surah(StorageService.surahLatestRead, 0, 0);
+    createPdfController();
   }
 
   @override
@@ -46,21 +47,30 @@ class _HomeScreenState extends State<HomeScreen> {
   void createPdfController() {
     pdfController = PdfController(
       document: PdfDocument.openAsset(PathConstants.pdfQuran),
-      initialPage: StorageService.pageNumber,
+      initialPage: pinnedPage,
     );
+  }
+
+  void onPageChanged(int value) {
+    detectSurah(value);
+    checkIfPinned(value);
   }
 
   void detectSurah(int page) {
     final index = SurahConstants.listOfSurah.indexWhere((surah) {
       return page >= surah.startsFrom && page < surah.ends;
     });
-    currentSurah = SurahConstants.listOfSurah[index];
+    final surah = SurahConstants.listOfSurah[index];
+    if (surah.name != currentSurah.name) {
+      currentSurah = surah;
+      setState(() {});
+    }
   }
 
-  void onPageChanged(int value) {
-    detectSurah(value);
-    isPinned = value == StorageService.pageNumber ? true : false;
-    setState(() {});
+  void checkIfPinned(int page) {
+    final tempIsPinned = isPinned;
+    isPinned = page == pinnedPage ? true : false;
+    if (tempIsPinned != isPinned) setState(() {});
   }
 
   void navigateToSettingsScreen() {
@@ -69,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onPinIconButtonPressed() {
     isPinned = true;
-    StorageService.pageNumber = pdfController.page;
+    pinnedPage = pdfController.page;
+    StorageService.pinnedPage = pinnedPage;
+    StorageService.surahLatestRead = currentSurah.name;
     SnackBarHelper.showSnackBar(SnackBarTextConstants.pinnedPage);
     setState(() {});
   }
@@ -82,6 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
       final listOfMyNotes = StorageService.listOfMyNotes;
       listOfMyNotes.add(note);
       StorageService.listOfMyNotes = listOfMyNotes;
+    }
+  }
+
+  Future<void> onAllSurahesButtonPressed() async {
+    final result = await DialogHelper.showSurahesDialog(context);
+    if (result != null) {
+      final selectedSurah = result as Surah;
+      pdfController.jumpToPage(selectedSurah.startsFrom);
     }
   }
 
@@ -116,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        pdfSection,
+        pdfViewer,
         Positioned(
           top: 10,
           right: 16,
@@ -143,13 +163,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Positioned(
           bottom: 27,
-          child: allSurahButton,
+          child: allSurahesButton,
         ),
       ],
     );
   }
 
-  Widget get pdfSection {
+  Widget get pdfViewer {
     return Padding(
       padding: const EdgeInsets.only(bottom: 70),
       child: PdfView(
@@ -247,9 +267,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget get allSurahButton {
+  Widget get allSurahesButton {
     return GestureDetector(
-      onTap: () => DialogHelper.showSurahDialog(context, pdfController),
+      onTap: onAllSurahesButtonPressed,
       child: CircleAvatar(
         radius: 31,
         backgroundColor: ColorConstants.white,

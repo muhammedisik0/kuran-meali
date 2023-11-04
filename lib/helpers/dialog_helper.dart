@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
 import 'package:kuran_meali/widgets/action_button_widget.dart';
+import 'package:kuran_meali/widgets/surah_button_widget.dart';
 import '../constants/color_constants.dart';
 import '../models/note_model.dart';
 import '../widgets/custom_textfield_widget.dart';
-import 'package:pdfx/pdfx.dart';
 import '../constants/surah_constants.dart';
 
 class DialogHelper {
-  static Future<void> showSurahDialog(
-    BuildContext context,
-    PdfController pdfController,
-  ) async {
+  static Future showSurahesDialog(BuildContext context) {
     final listOfSurah = SurahConstants.listOfSurah;
 
-    await showDialog(
+    return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -27,50 +24,17 @@ class DialogHelper {
               shrinkWrap: true,
               itemCount: listOfSurah.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
+                final surah = listOfSurah[index];
+                return SurahButton(
+                  onPressed: () {
                     final selectedSurah = listOfSurah[index];
-                    pdfController.jumpToPage(selectedSurah.startsFrom);
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(selectedSurah);
                   },
-                  child: Container(
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: ColorConstants.teal,
-                    ),
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 14,
-                          backgroundColor: ColorConstants.white,
-                          child: Text(
-                            '${index + 1}',
-                            style: const TextStyle(
-                              color: ColorConstants.teal,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          listOfSurah[index].name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: ColorConstants.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  number: index + 1,
+                  name: surah.name,
                 );
               },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 5);
-              },
+              separatorBuilder: (context, index) => const SizedBox(height: 5),
             ),
           ),
         );
