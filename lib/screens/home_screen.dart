@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/path_constants.dart';
+import 'package:kuran_meali/constants/route_constants.dart';
 import 'package:kuran_meali/constants/snackbar_text_constants.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
+import 'package:kuran_meali/widgets/pdf_viewer_widget.dart';
 import 'package:kuran_meali/widgets/pin_icon_button_widget.dart';
 import '../constants/color_constants.dart';
 import '../widgets/add_icon_button_widget.dart';
 import '../helpers/snackbar_helper.dart';
 import '../models/note_model.dart';
-import 'settings_screen.dart';
 import '../widgets/custom_icon_button_widget.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     createPdfController();
-    detectSurah(pdfController.initialPage);
+    currentSurah = Surah(StorageService.surahLatestRead, 0, 0);
   }
 
   @override
@@ -54,23 +55,16 @@ class _HomeScreenState extends State<HomeScreen> {
       return page >= surah.startsFrom && page < surah.ends;
     });
     currentSurah = SurahConstants.listOfSurah[index];
-    setState(() {});
-  }
-
-  Future<void> navigateToSettingsScreen() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SettingsScreen(),
-      ),
-    );
-    setState(() {});
   }
 
   void onPageChanged(int value) {
     detectSurah(value);
     isPinned = value == StorageService.pageNumber ? true : false;
     setState(() {});
+  }
+
+  void navigateToSettingsScreen() {
+    Navigator.pushNamed(context, RouteConstants.settings);
   }
 
   void onPinIconButtonPressed() {
@@ -101,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar get appBar {
+    print('appbar--------');
     return AppBar(
       backgroundColor: ColorConstants.teal,
       title: Text('${currentSurah.name} ${TextConstants.surahOf}'),
@@ -199,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get pageNavigationSection {
     return Container(
-      height: 54,
+      height: 56,
       color: ColorConstants.teal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -256,15 +251,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => DialogHelper.showSurahDialog(context, pdfController),
       child: CircleAvatar(
-        radius: 30,
+        radius: 31,
         backgroundColor: ColorConstants.white,
         child: CircleAvatar(
-          radius: 27,
+          radius: 28,
           backgroundColor: ColorConstants.teal,
-          child: Image.asset(
-            PathConstants.icQuran,
-            width: 27,
-          ),
+          child: Image.asset(PathConstants.icQuran, width: 28),
         ),
       ),
     );

@@ -8,12 +8,14 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.maxLines,
     this.autoFocus,
+    this.inputAction,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String labelText;
   final int? maxLines;
   final bool? autoFocus;
+  final TextInputAction? inputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         autofocus: autoFocus ?? false,
+        textInputAction: inputAction,
         cursorColor: ColorConstants.grey,
         style: const TextStyle(
           fontSize: 16,

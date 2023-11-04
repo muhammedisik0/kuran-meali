@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/widgets/custom_text_button_widget.dart';
+import 'package:kuran_meali/widgets/action_button_widget.dart';
 import '../constants/color_constants.dart';
 import '../models/note_model.dart';
-import '../widgets/custom_text_field_widget.dart';
+import '../widgets/custom_textfield_widget.dart';
 import 'package:pdfx/pdfx.dart';
 import '../constants/surah_constants.dart';
 
@@ -102,6 +102,7 @@ class DialogHelper {
                 controller: titleController,
                 autoFocus: true,
                 labelText: TextConstants.title,
+                inputAction: TextInputAction.next,
               ),
               const SizedBox(height: 20),
               CustomTextField(
@@ -112,7 +113,7 @@ class DialogHelper {
             ],
           ),
           actions: [
-            CustomTextButton(
+            ActionButton(
               onPressed: () {
                 Navigator.of(context).pop([false]);
               },
@@ -120,7 +121,7 @@ class DialogHelper {
               backgroundColor: ColorConstants.transparent,
               text: TextConstants.cancel,
             ),
-            CustomTextButton(
+            ActionButton(
               onPressed: () {
                 String title = titleController.text.trim();
                 String content = contentController.text.trim();
@@ -148,7 +149,7 @@ class DialogHelper {
           title: const Text(TextConstants.deleteNote),
           content: const Text(TextConstants.areYouSureYouWantToDeleteTheNote),
           actions: [
-            CustomTextButton(
+            ActionButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
@@ -156,7 +157,7 @@ class DialogHelper {
               backgroundColor: ColorConstants.transparent,
               text: TextConstants.cancel,
             ),
-            CustomTextButton(
+            ActionButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

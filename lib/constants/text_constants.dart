@@ -22,8 +22,7 @@ class TextConstants {
   static const String delete = 'Sil';
   static const String edit = 'Düzenle';
 
-  static const String shortExplanatory = 'KISA AÇIKLAMALI';
-  static const String quranKareemMeaning = 'KUR\'AN-I KERİM MEALİ';
+  static const String quranKareemMeaning = 'Kur\'an-ı Kerim Meali';
   static const String mahmutKisa = 'Mahmut Kısa';
   static const String vertical = 'Dikey';
   static const String horizontal = 'Yatay';

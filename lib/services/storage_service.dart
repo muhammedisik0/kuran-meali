@@ -13,6 +13,12 @@ class StorageService {
   static set pageNumber(int value) =>
       _storage.write(StorageKeyConstants.initialPage, value);
 
+  static String get surahLatestRead =>
+      _storage.read(StorageKeyConstants.surahLatestRead) ?? 'Fâtiha';
+
+  static set surahLatestRead(String value) =>
+      _storage.write(StorageKeyConstants.surahLatestRead, value);
+
   static bool get scrollDirection =>
       _storage.read(StorageKeyConstants.scrollDirection) ?? true;
 

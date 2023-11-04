@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/color_constants.dart';
 import 'package:kuran_meali/constants/path_constants.dart';
+import 'package:kuran_meali/constants/route_constants.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
-import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,12 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> navigateToHomeScreen() async {
     await Future.delayed(const Duration(seconds: 2));
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ),
-    );
+    Navigator.pushReplacementNamed(context, RouteConstants.home);
   }
 
   @override
@@ -44,15 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    TextConstants.shortExplanatory,
-                    style: TextStyle(
-                      color: ColorConstants.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
                     TextConstants.quranKareemMeaning,
                     style: TextStyle(
                       color: ColorConstants.white,
@@ -60,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontSize: 24,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Ink(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/color_constants.dart';
+import 'package:kuran_meali/constants/text_constants.dart';
 import 'package:kuran_meali/widgets/add_icon_button_widget.dart';
 
 import '../helpers/dialog_helper.dart';
@@ -23,7 +24,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     listOfMyNotes = StorageService.listOfMyNotes;
   }
 
-  Future<void> onAdd() async {
+  Future<void> onAddPressed() async {
     final result = await DialogHelper.showAddNoteDialog(context) as List;
     final isAdded = result.first;
     if (isAdded) {
@@ -34,7 +35,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     }
   }
 
-  Future<void> onEdit(int index) async {
+  Future<void> onEditPressed(int index) async {
     final note = listOfMyNotes[index];
     final result =
         await DialogHelper.showAddNoteDialog(context, isEdit: true, note: note);
@@ -47,7 +48,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     }
   }
 
-  Future<void> onDelete(int index) async {
+  Future<void> onDeletePressed(int index) async {
     final isConfirmed = await DialogHelper.showConfirmationDialog(context);
     if (isConfirmed) {
       listOfMyNotes.removeAt(index);
@@ -61,14 +62,15 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     return Scaffold(
       appBar: appBar,
       body: body,
-      floatingActionButton: AddIconButton(onPressed: onAdd),
+      floatingActionButton: AddIconButton(onPressed: onAddPressed),
     );
   }
 
   AppBar get appBar {
+    print('appbar--------');
     return AppBar(
       backgroundColor: ColorConstants.teal,
-      title: const Text('Notlarım'),
+      title: const Text(TextConstants.myNotes),
     );
   }
 
@@ -77,8 +79,8 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
       itemCount: listOfMyNotes.length,
       itemBuilder: (context, index) {
         return NoteCard(
-          onEdit: () => onEdit(index),
-          onDelete: () => onDelete(index),
+          onEdit: () => onEditPressed(index),
+          onDelete: () => onDeletePressed(index),
           note: listOfMyNotes[index],
         );
       },
