@@ -25,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final PdfController pdfController;
+
+  late final List<Surah> listOfSurahs;
   late Surah currentSurah;
 
   late int pinnedPage;
@@ -33,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    listOfSurahs = SurahConstants.listOfSurahs;
     pinnedPage = StorageService.pinnedPage;
     currentSurah = Surah(StorageService.surahLatestRead, 0, 0);
     createPdfController();
@@ -57,10 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void detectSurah(int page) {
-    final index = SurahConstants.listOfSurah.indexWhere((surah) {
+    final index = listOfSurahs.indexWhere((surah) {
       return page >= surah.startsFrom && page < surah.ends;
     });
-    final surah = SurahConstants.listOfSurah[index];
+    final surah = listOfSurahs[index];
     if (surah.name != currentSurah.name) {
       currentSurah = surah;
       setState(() {});
@@ -97,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> onAllSurahesButtonPressed() async {
-    final result = await DialogHelper.showSurahesDialog(context);
+  Future<void> onSurahsIconButtonPressed() async {
+    final result = await DialogHelper.showSurahsDialog(context);
     if (result != null) {
       final selectedSurah = result as Surah;
       pdfController.jumpToPage(selectedSurah.startsFrom);
@@ -115,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar get appBar {
-    print('appbar--------');
     return AppBar(
       backgroundColor: ColorConstants.teal,
       title: Text('${currentSurah.name} ${TextConstants.surahOf}'),
@@ -132,7 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget get body {
-    print('body');
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -269,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get allSurahesButton {
     return GestureDetector(
-      onTap: onAllSurahesButtonPressed,
+      onTap: onSurahsIconButtonPressed,
       child: CircleAvatar(
         radius: 31,
         backgroundColor: ColorConstants.white,

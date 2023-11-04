@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
     setState(() {});
   }
 
-  void onShareApp() => Share.share(AppConstants.playStoreUrl);
+  void onShareAppPressed() => Share.share(AppConstants.playStoreUrl);
 
   void onRateAppPressed() {
     LaunchReview.launch(
@@ -109,7 +109,7 @@ class SettingsScreen extends StatelessWidget {
 
   Widget get shareAppSection {
     return SettingsItemButton(
-      onPressed: onShareApp,
+      onPressed: onShareAppPressed,
       icon: const Icon(Icons.share_outlined),
       text: TextConstants.shareApp,
     );
