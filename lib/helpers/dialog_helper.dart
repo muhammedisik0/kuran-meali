@@ -30,8 +30,7 @@ class DialogHelper {
                     final selectedSurah = listOfSurahs[index];
                     Navigator.of(context).pop(selectedSurah);
                   },
-                  number: index + 1,
-                  name: surah.name,
+                  surah: surah,
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(height: 5),

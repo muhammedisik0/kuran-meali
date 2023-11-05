@@ -2,7 +2,7 @@ class TextConstants {
   TextConstants._();
 
   static const String settings = 'Ayarlar';
-  static const String myNotes = 'Notlarım';
+  static const String notes = 'Notlar';
 
   static const String scrollDirection = 'Sayfa Akışı';
   static const String rateApp = 'Uygulamayı Değerlendir';

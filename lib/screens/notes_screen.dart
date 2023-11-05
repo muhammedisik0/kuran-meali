@@ -8,42 +8,35 @@ import '../models/note_model.dart';
 import '../services/storage_service.dart';
 import '../widgets/note_card_widget.dart';
 
-class MyNotesScreen extends StatefulWidget {
-  const MyNotesScreen({super.key});
+class NotesScreen extends StatefulWidget {
+  const NotesScreen({super.key});
 
   @override
-  State<MyNotesScreen> createState() => _MyNotesScreenState();
+  State<NotesScreen> createState() => _NotesScreenState();
 }
 
-class _MyNotesScreenState extends State<MyNotesScreen> {
-  late List<Note> listOfMyNotes;
+class _NotesScreenState extends State<NotesScreen> {
+  late List<Note> listOfNotes;
 
   @override
   void initState() {
     super.initState();
-    listOfMyNotes = StorageService.listOfMyNotes;
+    listOfNotes = StorageService.listOfNotes;
   }
 
-  Future<void> onAddIconButtonPressed() async {
-    final result = await DialogHelper.showAddNoteDialog(context) as List;
-    final isAdded = result.first;
-    if (isAdded) {
-      final note = result.last as Note;
-      listOfMyNotes.add(note);
-      StorageService.listOfMyNotes = listOfMyNotes;
-      setState(() {});
-    }
+  void updateNotes() {
+    setState(() => listOfNotes = StorageService.listOfNotes);
   }
 
   Future<void> onEditPressed(int index) async {
-    final note = listOfMyNotes[index];
+    final note = listOfNotes[index];
     final result =
         await DialogHelper.showAddNoteDialog(context, isEdit: true, note: note);
     final isEdited = result.first;
     if (isEdited) {
       final note = result.last as Note;
-      listOfMyNotes[index] = note;
-      StorageService.listOfMyNotes = listOfMyNotes;
+      listOfNotes[index] = note;
+      StorageService.listOfNotes = listOfNotes;
       setState(() {});
     }
   }
@@ -51,8 +44,8 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
   Future<void> onDeletePressed(int index) async {
     final isConfirmed = await DialogHelper.showConfirmationDialog(context);
     if (isConfirmed) {
-      listOfMyNotes.removeAt(index);
-      StorageService.listOfMyNotes = listOfMyNotes;
+      listOfNotes.removeAt(index);
+      StorageService.listOfNotes = listOfNotes;
       setState(() {});
     }
   }
@@ -62,25 +55,25 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
     return Scaffold(
       appBar: appBar,
       body: body,
-      floatingActionButton: AddIconButton(onPressed: onAddIconButtonPressed),
+      floatingActionButton: AddIconButton(callback: updateNotes),
     );
   }
 
   AppBar get appBar {
     return AppBar(
       backgroundColor: ColorConstants.teal,
-      title: const Text(TextConstants.myNotes),
+      title: const Text(TextConstants.notes),
     );
   }
 
   Widget get body {
     return ListView.builder(
-      itemCount: listOfMyNotes.length,
+      itemCount: listOfNotes.length,
       itemBuilder: (context, index) {
         return NoteCard(
           onEdit: () => onEditPressed(index),
           onDelete: () => onDeletePressed(index),
-          note: listOfMyNotes[index],
+          note: listOfNotes[index],
         );
       },
     );

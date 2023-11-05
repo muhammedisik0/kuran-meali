@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/models/surah_model.dart';
 
 import '../constants/color_constants.dart';
 
@@ -6,13 +7,11 @@ class SurahButton extends StatelessWidget {
   const SurahButton({
     super.key,
     required this.onPressed,
-    required this.number,
-    required this.name,
+    required this.surah,
   });
 
   final VoidCallback onPressed;
-  final int number;
-  final String name;
+  final Surah surah;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class SurahButton extends StatelessWidget {
               radius: 14,
               backgroundColor: ColorConstants.white,
               child: Text(
-                '$number',
+                '${surah.number}',
                 style: const TextStyle(
                   color: ColorConstants.teal,
                   fontSize: 14,
@@ -42,7 +41,7 @@ class SurahButton extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Text(
-              name,
+              surah.name,
               style: const TextStyle(
                 fontSize: 16,
                 color: ColorConstants.white,

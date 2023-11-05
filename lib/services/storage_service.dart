@@ -13,11 +13,11 @@ class StorageService {
   static set pinnedPage(int value) =>
       _storage.write(StorageKeyConstants.initialPage, value);
 
-  static String get surahLatestRead =>
-      _storage.read(StorageKeyConstants.surahLatestRead) ?? 'Fâtiha';
+  static int get surahNumber =>
+      _storage.read(StorageKeyConstants.surahNumber) ?? 1;
 
-  static set surahLatestRead(String value) =>
-      _storage.write(StorageKeyConstants.surahLatestRead, value);
+  static set surahNumber(int value) =>
+      _storage.write(StorageKeyConstants.surahNumber, value);
 
   static bool get scrollDirection =>
       _storage.read(StorageKeyConstants.scrollDirection) ?? true;
@@ -25,20 +25,20 @@ class StorageService {
   static void setScrollDirection() =>
       _storage.write(StorageKeyConstants.scrollDirection, !scrollDirection);
 
-  static List<Note> get listOfMyNotes {
-    final jsonString = _storage.read(StorageKeyConstants.myNotes);
-    late final List<Note> myNotes;
-    myNotes = jsonString != null
+  static List<Note> get listOfNotes {
+    final jsonString = _storage.read(StorageKeyConstants.notes);
+    late final List<Note> notes;
+    notes = jsonString != null
         ? (jsonDecode(jsonString) as List<dynamic>)
             .map((note) => Note.fromJson(note))
             .toList()
         : [];
-    return myNotes;
+    return notes;
   }
 
-  static set listOfMyNotes(List<Note> listOfMyNotes) {
+  static set listOfNotes(List<Note> listOfNotes) {
     final jsonString =
-        jsonEncode(listOfMyNotes.map((note) => note.toJson()).toList());
-    _storage.write(StorageKeyConstants.myNotes, jsonString);
+        jsonEncode(listOfNotes.map((note) => note.toJson()).toList());
+    _storage.write(StorageKeyConstants.notes, jsonString);
   }
 }
