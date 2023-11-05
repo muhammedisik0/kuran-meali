@@ -3,6 +3,8 @@ class AppConstants {
 
   static const String packageName = 'com.mahmutkisa.meal';
 
+  static const String appVersion = '2.0.1';
+
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=$packageName';
 

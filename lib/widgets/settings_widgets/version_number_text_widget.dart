@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuran_meali/constants/app_constants.dart';
 
 import '../../constants/color_constants.dart';
 import '../../constants/text_constants.dart';
@@ -9,7 +10,7 @@ class VersionNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      '${TextConstants.version} 1.1.0',
+      '${TextConstants.version} ${AppConstants.appVersion}',
       style: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
