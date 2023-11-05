@@ -86,10 +86,10 @@ class DialogHelper {
               onPressed: () {
                 String title = titleController.text.trim();
                 String content = contentController.text.trim();
-                if (title.isEmpty) title = '...';
-                if (content.isEmpty) content = '...';
-                final note = Note(title: title, content: content);
-                Navigator.of(context).pop([true, note]);
+                if (title.isNotEmpty && content.isNotEmpty) {
+                  final note = Note(title: title, content: content);
+                  Navigator.of(context).pop([true, note]);
+                }
               },
               foregroundColor: ColorConstants.white,
               backgroundColor: ColorConstants.teal,
