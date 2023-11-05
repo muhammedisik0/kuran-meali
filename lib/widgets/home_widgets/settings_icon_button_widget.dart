@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/services/storage_service.dart';
 
-import '../constants/route_constants.dart';
-import 'custom_icon_button_widget.dart';
+import '../../constants/route_constants.dart';
+import '../base_widgets/custom_icon_button_widget.dart';
 
 class SettingsIconButton extends StatelessWidget {
   const SettingsIconButton({super.key, required this.callback});

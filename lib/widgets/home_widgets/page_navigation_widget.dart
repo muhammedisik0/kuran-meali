@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
-import '../constants/color_constants.dart';
-import 'custom_icon_button_widget.dart';
+import '../../constants/color_constants.dart';
+import '../base_widgets/custom_icon_button_widget.dart';
 
 class PageNavigation extends StatelessWidget {
   const PageNavigation({super.key, required this.pdfController});
-
   final PdfController pdfController;
 
   @override

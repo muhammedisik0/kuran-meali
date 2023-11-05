@@ -9,14 +9,14 @@ import '../constants/text_constants.dart';
 import '../helpers/snackbar_helper.dart';
 import '../models/surah_model.dart';
 import '../services/storage_service.dart';
-import '../widgets/add_icon_button_widget.dart';
-import '../widgets/notes_icon_button_widget.dart';
-import '../widgets/page_navigation_widget.dart';
-import '../widgets/page_number_widget.dart';
-import '../widgets/pdf_viewer_widget.dart';
-import '../widgets/pin_icon_button_widget.dart';
-import '../widgets/settings_icon_button_widget.dart';
-import '../widgets/surahs_icon_button_widget.dart';
+import '../widgets/common_widgets/add_icon_button_widget.dart';
+import '../widgets/home_widgets/notes_icon_button_widget.dart';
+import '../widgets/home_widgets/page_navigation_widget.dart';
+import '../widgets/home_widgets/page_number_widget.dart';
+import '../widgets/home_widgets/pdf_viewer_widget.dart';
+import '../widgets/home_widgets/pin_icon_button_widget.dart';
+import '../widgets/home_widgets/settings_icon_button_widget.dart';
+import '../widgets/home_widgets/surahs_icon_button_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

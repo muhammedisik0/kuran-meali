@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/models/surah_model.dart';
 
-import '../constants/color_constants.dart';
+import '../../constants/color_constants.dart';
 
 class SurahButton extends StatelessWidget {
   const SurahButton({

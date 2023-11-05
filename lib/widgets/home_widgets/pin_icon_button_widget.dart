@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/color_constants.dart';
-import 'custom_icon_button_widget.dart';
+import '../../constants/color_constants.dart';
+import '../base_widgets/custom_icon_button_widget.dart';
 
 class PinIconButton extends StatelessWidget {
   const PinIconButton({

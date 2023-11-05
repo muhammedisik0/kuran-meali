@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:kuran_meali/constants/storage_key_constants.dart';
-import 'package:kuran_meali/screens/home_screen.dart';
-import 'package:kuran_meali/screens/notes_screen.dart';
-import 'package:kuran_meali/screens/settings_screen.dart';
+
 import 'constants/route_constants.dart';
-import 'utils/globals.dart';
+import 'constants/storage_key_constants.dart';
+import 'screens/home_screen.dart';
+import 'screens/notes_screen.dart';
+import 'screens/settings_screen.dart';
 import 'screens/splash_screen.dart';
+import 'utils/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

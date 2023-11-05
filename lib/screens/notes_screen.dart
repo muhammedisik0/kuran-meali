@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kuran_meali/constants/color_constants.dart';
-import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/widgets/add_icon_button_widget.dart';
 
+import '../constants/color_constants.dart';
+import '../constants/text_constants.dart';
 import '../helpers/dialog_helper.dart';
 import '../models/note_model.dart';
 import '../services/storage_service.dart';
-import '../widgets/note_card_widget.dart';
+import '../widgets/common_widgets/add_icon_button_widget.dart';
+import '../widgets/notes_widgets/note_card_widget.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -24,8 +24,13 @@ class _NotesScreenState extends State<NotesScreen> {
     listOfNotes = StorageService.listOfNotes;
   }
 
-  void updateNotes() {
-    setState(() => listOfNotes = StorageService.listOfNotes);
+  Future<void> onDeletePressed(int index) async {
+    final isConfirmed = await DialogHelper.showConfirmationDialog(context);
+    if (isConfirmed) {
+      listOfNotes.removeAt(index);
+      StorageService.listOfNotes = listOfNotes;
+      setState(() {});
+    }
   }
 
   Future<void> onEditPressed(int index) async {
@@ -41,13 +46,8 @@ class _NotesScreenState extends State<NotesScreen> {
     }
   }
 
-  Future<void> onDeletePressed(int index) async {
-    final isConfirmed = await DialogHelper.showConfirmationDialog(context);
-    if (isConfirmed) {
-      listOfNotes.removeAt(index);
-      StorageService.listOfNotes = listOfNotes;
-      setState(() {});
-    }
+  void updateNotes() {
+    setState(() => listOfNotes = StorageService.listOfNotes);
   }
 
   @override

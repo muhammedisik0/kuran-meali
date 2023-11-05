@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/route_constants.dart';
-import 'custom_icon_button_widget.dart';
+import '../../constants/route_constants.dart';
+import '../base_widgets/custom_icon_button_widget.dart';
 
 class NotesIconButton extends StatelessWidget {
   const NotesIconButton({super.key});

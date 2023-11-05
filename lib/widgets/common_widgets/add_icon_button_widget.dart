@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/color_constants.dart';
 
-import '../helpers/dialog_helper.dart';
-import '../models/note_model.dart';
-import '../services/storage_service.dart';
-import 'custom_icon_button_widget.dart';
+import '../../helpers/dialog_helper.dart';
+import '../../models/note_model.dart';
+import '../../services/storage_service.dart';
+import '../base_widgets/custom_icon_button_widget.dart';
 
 class AddIconButton extends StatelessWidget {
   const AddIconButton({super.key, this.callback});

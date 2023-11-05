@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
-import '../constants/color_constants.dart';
+import '../../constants/color_constants.dart';
 
 class PageNumber extends StatelessWidget {
   const PageNumber({super.key, required this.pdfController});
