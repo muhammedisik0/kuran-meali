@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
-import '../constants/color_constants.dart';
-import '../services/storage_service.dart';
+import '../../constants/color_constants.dart';
+import '../../services/storage_service.dart';
 
 class PdfViewer extends StatelessWidget {
   const PdfViewer({

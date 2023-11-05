@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/widgets/action_button_widget.dart';
-import 'package:kuran_meali/widgets/surah_button_widget.dart';
+import 'package:kuran_meali/widgets/common_widgets/action_button_widget.dart';
+import 'package:kuran_meali/widgets/common_widgets/surah_button_widget.dart';
 import '../constants/color_constants.dart';
 import '../models/note_model.dart';
-import '../widgets/custom_textfield_widget.dart';
+import '../widgets/base_widgets/custom_text_field_widget.dart';
 import '../constants/surah_constants.dart';
 
 class DialogHelper {

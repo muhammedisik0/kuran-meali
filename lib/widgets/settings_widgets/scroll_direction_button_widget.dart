@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../constants/text_constants.dart';
-import '../services/storage_service.dart';
-import 'settings_item_button_widget.dart';
+import '../../constants/text_constants.dart';
+import '../../services/storage_service.dart';
+import '../common_widgets/settings_item_button_widget.dart';
 
 class ScrollDirectionButton extends StatefulWidget {
   const ScrollDirectionButton({super.key});

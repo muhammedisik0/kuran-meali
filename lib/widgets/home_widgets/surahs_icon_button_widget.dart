@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
-import '../constants/color_constants.dart';
-import '../constants/path_constants.dart';
-import '../helpers/dialog_helper.dart';
-import '../models/surah_model.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/path_constants.dart';
+import '../../helpers/dialog_helper.dart';
+import '../../models/surah_model.dart';
 
 class SurahsIconButton extends StatelessWidget {
   const SurahsIconButton({super.key, required this.pdfController});

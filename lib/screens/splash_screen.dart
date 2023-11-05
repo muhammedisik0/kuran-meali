@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kuran_meali/constants/color_constants.dart';
-import 'package:kuran_meali/constants/path_constants.dart';
-import 'package:kuran_meali/constants/route_constants.dart';
-import 'package:kuran_meali/constants/text_constants.dart';
+
+import '../constants/color_constants.dart';
+import '../constants/path_constants.dart';
+import '../constants/route_constants.dart';
+import '../constants/text_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
