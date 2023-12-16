@@ -1,3 +1,3 @@
-# kuran_meali
+# kuran_interpretation
 
-A new Flutter project.
+Quran interpretation PDF file(s) inserted into the app in order to ease reading and to navigating between surahs.
