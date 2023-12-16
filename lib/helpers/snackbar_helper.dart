@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/color_constants.dart';
 
-import '../utils/globals.dart';
-
 class SnackBarHelper {
-  static void showSnackBar(String text) {
+  static void showSnackBar(BuildContext context, String text) {
     final snackBar = SnackBar(
-      backgroundColor: ColorConstants.lightTeal,
+      backgroundColor: ColorConstants.dodgerBlue,
       duration: const Duration(seconds: 2),
       behavior: SnackBarBehavior.floating,
       content: Text(
         text,
-        style: const TextStyle(fontSize: 16, color: ColorConstants.black),
+        style: const TextStyle(fontSize: 16, color: ColorConstants.white),
       ),
     );
 
-    _show(snackBar);
+    _show(context, snackBar);
   }
 
-  static void _show(SnackBar snackBar) {
-    final scaffoldMessengerState =
-        ScaffoldMessenger.of(navigatorKey.currentContext!);
+  static void _show(BuildContext context, SnackBar snackBar) {
+    final scaffoldMessengerState = ScaffoldMessenger.of(context);
     if (scaffoldMessengerState.mounted) {
       scaffoldMessengerState.hideCurrentSnackBar();
     }

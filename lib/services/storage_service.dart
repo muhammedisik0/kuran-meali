@@ -19,12 +19,6 @@ class StorageService {
   static set surahNumber(int value) =>
       _storage.write(StorageKeyConstants.surahNumber, value);
 
-  static bool get scrollDirection =>
-      _storage.read(StorageKeyConstants.scrollDirection) ?? true;
-
-  static void setScrollDirection() =>
-      _storage.write(StorageKeyConstants.scrollDirection, !scrollDirection);
-
   static List<Note> get listOfNotes {
     final jsonString = _storage.read(StorageKeyConstants.notes);
     late final List<Note> notes;
