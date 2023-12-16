@@ -1,5 +1,5 @@
-class SnackBarTextConstants {
-  SnackBarTextConstants._();
+class SnackBarMessageConstants {
+  SnackBarMessageConstants._();
 
   static const String pinnedPage = 'Kaldığım yer işaretlendi.';
 }

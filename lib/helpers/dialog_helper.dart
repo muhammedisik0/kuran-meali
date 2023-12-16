@@ -17,6 +17,7 @@ class DialogHelper {
         return AlertDialog(
           insetPadding:
               const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
           title: const Center(child: Text(TextConstants.surahs)),
           content: SizedBox(
             width: double.maxFinite,
