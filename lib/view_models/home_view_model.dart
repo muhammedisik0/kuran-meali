@@ -11,18 +11,6 @@ class HomeViewModel extends ChangeNotifier {
 
   late int _currentSurahNumber;
   late int _pinnedPage;
-  //int _pageNumber = 1;
-  //int _pageCount = 0;
-
-  PdfViewerController get pdfViewerController => _pdfViewerController;
-  int get currentSurahNumber => _currentSurahNumber;
-  int get pinnedPage => _pinnedPage;
-  //int get pageNumber => _pageNumber;
-  //int get pageCount => _pageCount;
-
-  String get fileName => '${PathConstants.docs}/$currentSurahNumber.pdf';
-  Surah get currentSurah =>
-      SurahConstants.listOfSurahs[_currentSurahNumber - 1];
 
   HomeViewModel() {
     _currentSurahNumber = StorageService.surahNumber;
@@ -31,19 +19,21 @@ class HomeViewModel extends ChangeNotifier {
     _pdfViewerController.jumpToPage(_pinnedPage);
   }
 
-  /*void onPageChanged(PdfPageChangedDetails details) {
-    _pageNumber = details.newPageNumber;
-    notifyListeners();
-  }*/
+  Surah get currentSurah =>
+      SurahConstants.listOfSurahs[_currentSurahNumber - 1];
+  int get currentSurahNumber => _currentSurahNumber;
+  String get fileName => '${PathConstants.docs}/$currentSurahNumber.pdf';
+  PdfViewerController get pdfViewerController => _pdfViewerController;
+  int get pinnedPage => _pinnedPage;
+  int get _currentPage => _pdfViewerController.pageNumber;
+  int get _pageCount => _pdfViewerController.pageCount;
 
-  void nextSurah() {
-    if (_currentSurahNumber < 114) _currentSurahNumber += 1;
-    notifyListeners();
+  void _checkIfFirstSurah() {
+    if (_currentSurahNumber > 1) _currentSurahNumber--;
   }
 
-  void previousSurah() {
-    if (_currentSurahNumber > 1) _currentSurahNumber -= 1;
-    notifyListeners();
+  void _checkIfLastSurah() {
+    if (_currentSurahNumber < 114) _currentSurahNumber++;
   }
 
   void goToSurah(int value) {
@@ -51,9 +41,39 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*void resetPageInfo() {
-    _pageNumber = 1;
-    _pageCount = _pdfViewerController.pageCount;
-    notifyListeners();
-  }*/
+  void jumpTo5PagesBack() {
+    final int targetPage = _currentPage - 5;
+    if (targetPage < 1) {
+      _pdfViewerController.firstPage();
+    } else {
+      _pdfViewerController.jumpToPage(targetPage);
+    }
+  }
+
+  void jumpTo5PagesForward() {
+    final int targetPage = _currentPage + 5;
+    if (targetPage > _pageCount) {
+      _pdfViewerController.lastPage();
+    } else {
+      _pdfViewerController.jumpToPage(targetPage);
+    }
+  }
+
+  void nextPage() {
+    if (_currentPage == _pageCount) {
+      _checkIfLastSurah();
+      notifyListeners();
+    } else {
+      _pdfViewerController.nextPage();
+    }
+  }
+
+  void previousPage() {
+    if (_currentPage == 1) {
+      _checkIfFirstSurah();
+      notifyListeners();
+    } else {
+      _pdfViewerController.previousPage();
+    }
+  }
 }

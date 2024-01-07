@@ -1,7 +1,7 @@
 name: kuran_meali
 description: A new Flutter project.
 publish_to: "none"
-version: 3.0.0+5
+version: 3.1.0+6
 
 environment:
   sdk: ">=2.19.6 <3.0.0"
@@ -16,6 +16,7 @@ dependencies:
   url_launcher: ^6.1.10
   syncfusion_flutter_pdfviewer: ^23.2.7
   provider: ^6.1.1
+  top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -30,19 +31,20 @@ flutter:
     - assets/icons/
 
 changelog: |
-  # Change Log - Version 3.0.0+5
+  # Change Log - Version 3.1.0+6
 
-  New Feature:
-  - Added copy text feature.
+  Project Structure:
+  - Updated folder structure for better organization.
 
-  Library Updates:
-  - Changed PDF viewer library for enhanced functionality.
-
-  New Library Added:
-  - Added `provider` library for enhanced state management.
-
-  File Organization:
-  - Splitted the PDF file into 114 parts for better performance.
+  Issue Fix:
+  - Distortions in the copied text is a little fixed.
 
   UI Enhancements:
-  - Made small changes to the user interface for a better user experience.
+  - Surahs dialog replaced with a bottom sheet for improved user experience.
+
+  New Library Added:
+  - Added `top_snackbar_flutter` library for enhanced snackbar functionality.
+
+  User Experience:
+  - Enhanced the skip-to-next-surah button, allowing it to jump 5 pages forward for improved functionality.
+

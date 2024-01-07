@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kuran_meali/view_models/notes_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/color_constants.dart';
-import '../constants/text_constants.dart';
-import '../widgets/common_widgets/add_icon_button_widget.dart';
-import '../widgets/notes_widgets/note_card_widget.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/text_constants.dart';
+import '../../widgets/common_widgets/add_icon_button_widget.dart';
+import 'widgets/note_card_widget.dart';
 
 class NotesView extends StatelessWidget {
   const NotesView({super.key});

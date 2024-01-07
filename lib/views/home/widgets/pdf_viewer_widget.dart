@@ -4,7 +4,7 @@ import 'package:kuran_meali/view_models/home_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import '../common_widgets/overlay_entry_widget.dart';
+import '../../../widgets/common_widgets/overlay_entry_widget.dart';
 
 class PdfViewer extends StatelessWidget {
   const PdfViewer({super.key});
@@ -37,11 +37,8 @@ class _PdfViewerState extends State<_PdfViewer> {
       PdfViewerController pdfViewerController) {
     final OverlayState overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
-      builder: (context) => OverlayEntryWidget(
-        pdfViewerController: pdfViewerController,
-        details: details,
-      ),
-    );
+        builder: (context) => OverlayEntryWidget(
+            pdfViewerController: pdfViewerController, details: details));
     overlayState.insert(_overlayEntry!);
   }
 

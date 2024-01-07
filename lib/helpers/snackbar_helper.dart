@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:kuran_meali/constants/color_constants.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../constants/path_constants.dart';
+import '../constants/snackbar_text_constants.dart';
 
 class SnackBarHelper {
   static void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(
-      backgroundColor: ColorConstants.dodgerBlue,
-      duration: const Duration(seconds: 2),
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        text,
-        style: const TextStyle(fontSize: 16, color: ColorConstants.white),
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.info(
+        messagePadding: const EdgeInsets.symmetric(horizontal: 20),
+        message: SnackBarMessageConstants.pinnedPage,
+        backgroundColor: ColorConstants.lightTeal,
+        icon: Image.asset(PathConstants.icQuran, width: 48),
+        iconPositionLeft: 20,
+        iconRotationAngle: 0,
+        textStyle: const TextStyle(color: ColorConstants.black, fontSize: 16),
       ),
+      displayDuration: const Duration(milliseconds: 1500),
     );
-
-    _show(context, snackBar);
-  }
-
-  static void _show(BuildContext context, SnackBar snackBar) {
-    final scaffoldMessengerState = ScaffoldMessenger.of(context);
-    if (scaffoldMessengerState.mounted) {
-      scaffoldMessengerState.hideCurrentSnackBar();
-    }
-    scaffoldMessengerState.showSnackBar(snackBar);
   }
 }

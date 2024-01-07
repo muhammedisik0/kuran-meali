@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kuran_meali/view_models/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/color_constants.dart';
-import '../../constants/route_constants.dart';
-import '../base_widgets/custom_icon_button_widget.dart';
+import '../../../constants/color_constants.dart';
+import '../../../constants/route_constants.dart';
+import '../../../widgets/base_widgets/custom_icon_button_widget.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});

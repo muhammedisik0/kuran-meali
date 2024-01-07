@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../constants/color_constants.dart';
-import '../constants/path_constants.dart';
-import '../constants/route_constants.dart';
-import '../constants/text_constants.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/path_constants.dart';
+import '../../constants/route_constants.dart';
+import '../../constants/text_constants.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);

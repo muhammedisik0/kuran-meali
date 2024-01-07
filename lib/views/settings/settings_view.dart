@@ -3,10 +3,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../constants/app_constants.dart';
-import '../constants/color_constants.dart';
-import '../constants/text_constants.dart';
-import '../widgets/settings_widgets/settings_item_button_widget.dart';
+import '../../constants/app_constants.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/text_constants.dart';
+import 'widgets/settings_item_button_widget.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

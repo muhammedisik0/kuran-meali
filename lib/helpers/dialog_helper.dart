@@ -1,47 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kuran_meali/constants/text_constants.dart';
-import 'package:kuran_meali/widgets/common_widgets/action_button_widget.dart';
-import 'package:kuran_meali/widgets/common_widgets/surah_button_widget.dart';
+
 import '../constants/color_constants.dart';
+import '../constants/text_constants.dart';
 import '../models/note_model.dart';
 import '../widgets/base_widgets/custom_text_field_widget.dart';
-import '../constants/surah_constants.dart';
+import '../widgets/common_widgets/action_button_widget.dart';
 
 class DialogHelper {
-  static Future showSurahsDialog(BuildContext context) {
-    final listOfSurahs = SurahConstants.listOfSurahs;
-
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          insetPadding:
-              const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-          title: const Center(child: Text(TextConstants.surahs)),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: listOfSurahs.length,
-              itemBuilder: (context, index) {
-                final surah = listOfSurahs[index];
-                return SurahButton(
-                  onPressed: () {
-                    final selectedSurah = listOfSurahs[index];
-                    Navigator.of(context).pop(selectedSurah);
-                  },
-                  surah: surah,
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 5),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   static Future showAddNoteDialog(BuildContext context,
       {bool isEdit = false, Note? note}) {
     TextEditingController titleController = TextEditingController();

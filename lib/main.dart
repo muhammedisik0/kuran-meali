@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 
 import 'constants/route_constants.dart';
 import 'constants/storage_key_constants.dart';
-import 'views/home_view.dart';
-import 'views/notes_view.dart';
-import 'views/settings_view.dart';
-import 'views/splash_view.dart';
+import 'views/home/home_view.dart';
+import 'views/notes/notes_view.dart';
+import 'views/settings/settings_view.dart';
+import 'views/splash/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
