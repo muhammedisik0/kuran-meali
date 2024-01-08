@@ -3,9 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:kuran_meali/view_models/notes_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/color_constants.dart';
-import '../../constants/text_constants.dart';
-import '../../models/note_model.dart';
+import '../../../constants/color_constants.dart';
+import '../../../constants/text_constants.dart';
+import '../../../models/note_model.dart';
 
 class NoteCard extends StatelessWidget {
   final int index;

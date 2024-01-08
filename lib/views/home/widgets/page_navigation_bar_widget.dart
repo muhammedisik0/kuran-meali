@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kuran_meali/view_models/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/color_constants.dart';
-import '../../constants/path_constants.dart';
-import '../../helpers/dialog_helper.dart';
-import '../../models/surah_model.dart';
-import '../base_widgets/custom_icon_button_widget.dart';
+import '../../../constants/color_constants.dart';
+import '../../../constants/path_constants.dart';
+import '../../../helpers/bottom_sheet_helper.dart';
+import '../../../models/surah_model.dart';
+import '../../../view_models/home_view_model.dart';
+import '../../../widgets/base_widgets/custom_icon_button_widget.dart';
 
 class PageNavigationBar extends StatelessWidget {
   const PageNavigationBar({super.key});
@@ -29,26 +29,23 @@ class PageNavigationBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomIconButton(
-                onPressed: viewModel.previousSurah,
+                onPressed: viewModel.jumpTo5PagesBack,
                 icon: const Icon(Icons.keyboard_double_arrow_left),
               ),
               CustomIconButton(
-                onPressed: () {
-                  viewModel.pdfViewerController.previousPage();
-                },
+                onPressed: viewModel.previousPage,
                 icon: const Icon(Icons.navigate_before),
               ),
               const SizedBox(width: 10),
-              const _SurahsIconButton(),
+              _SurahsIconButton(
+                  callback: (value) => viewModel.goToSurah(value)),
               const SizedBox(width: 10),
               CustomIconButton(
-                onPressed: () {
-                  viewModel.pdfViewerController.nextPage();
-                },
+                onPressed: viewModel.nextPage,
                 icon: const Icon(Icons.navigate_next),
               ),
               CustomIconButton(
-                onPressed: viewModel.nextSurah,
+                onPressed: viewModel.jumpTo5PagesForward,
                 icon: const Icon(Icons.keyboard_double_arrow_right),
               ),
             ],
@@ -60,18 +57,9 @@ class PageNavigationBar extends StatelessWidget {
 }
 
 class _SurahsIconButton extends StatelessWidget {
-  const _SurahsIconButton();
+  final Function(int value) callback;
 
-  Future<void> onTap(BuildContext context) async {
-    final result = await DialogHelper.showSurahsDialog(context);
-    if (result != null) {
-      final selectedSurah = result as Surah;
-      final HomeViewModel homeViewModel =
-          // ignore: use_build_context_synchronously
-          Provider.of<HomeViewModel>(context, listen: false);
-      homeViewModel.goToSurah(selectedSurah.number);
-    }
-  }
+  const _SurahsIconButton({required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -79,5 +67,13 @@ class _SurahsIconButton extends StatelessWidget {
       onTap: () => onTap(context),
       child: Image.asset(PathConstants.icQuran, width: 36),
     );
+  }
+
+  Future<void> onTap(BuildContext context) async {
+    final result = await BottomSheetHelper.showSurahsBottomSheet(context);
+    if (result != null) {
+      final selectedSurah = result as Surah;
+      callback(selectedSurah.number);
+    }
   }
 }
